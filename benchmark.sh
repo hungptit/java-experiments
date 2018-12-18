@@ -1,2 +1,7 @@
 #!/bin/bash
-mvn clean package && chmod u+x target/experiments-*.jar -*.jar && java -jar target/experiments-*.jar
+set -e
+set +x
+mvn clean
+mvn install
+java -jar target/experiments-*.jar
+set -x
