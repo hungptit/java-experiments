@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Iterator;
 import java.util.stream.Collectors;
 
 import java.util.Arrays;
@@ -89,6 +90,11 @@ public class MapDiff {
     }
 
     @Benchmark
+    public void simpleAlgorithmIterator(Blackhole bh) {
+        bh.consume(usingIterator(map1, map2));
+    }
+
+    @Benchmark
     public void streamBasedAlgorithm(Blackhole bh) {
         bh.consume(diff2(map1, map2));
     }
@@ -117,6 +123,37 @@ public class MapDiff {
                 results.add(key);
             }
         }
+        return results;
+    }
+
+    private <K, V> Set<K> usingIterator(Map<K, V> map1, Map<K, V> map2) {
+        Set<K> results = new HashSet<K>();
+
+        // Find all keys in map1 which either are not present in map2
+        // or have different values.
+        Iterator<Map.Entry<K, V>> entries = map1.entrySet().iterator();
+        while (entries.hasNext()) {
+            var entry = (Map.Entry<K, V>) entries.next();
+            K key = entry.getKey();
+            if (map2.containsKey(key)) {
+                if (!entry.getValue().equals(map2.get(key))) {
+                    results.add(key);
+                }
+            } else {
+                results.add(key);
+            }
+        }
+
+        // Find all keys in map2 that are not in map1.
+        entries = map2.entrySet().iterator();
+        while (entries.hasNext()) {
+            var entry = (Map.Entry<K, V>) entries.next();
+            K key = entry.getKey();
+            if (!map1.containsKey(key)) {
+                results.add(key);
+            }
+        }
+
         return results;
     }
 
