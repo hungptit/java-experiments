@@ -35,7 +35,7 @@ class: center, middle
 <!-- Forget about all of your intuitions. The modern computer architecture is complex and the only intuition is to measure it. -->
 
 ---
-# #3 - Use profilers to find the bottle-neck
+# #3 - Use a profiler to find the real bottleneck
 
 --
 
@@ -131,7 +131,7 @@ LoggingPerf.warnStandardSyntaxWithIfGuard         thrpt   10  952644973.795 ± 7
 - Use either [Jsoniter](https://jsoniter.com/) or [Jackson](https://github.com/FasterXML/jackson) if you can in your project.
 
 ---
-# #9 - Data deserialization - int
+# #9 - Data deserialization - Benchmark results
 
 --
 
@@ -625,10 +625,6 @@ MapDiff.streamBasedAlgorithm                  thrpt   10    539597.117 ±   2801
 ---
 # #17 - Think in sets, not in individual elements
 
---
-
-- Functional programming and Java 8 may not always help you to write easier, more concise algorithms.
-
 ---
 # #18 - Common performance tips
 
@@ -670,4 +666,6 @@ class: center, middle
 * [Java String Concatenation: Which Way Is Best?](https://redfin.engineering/java-string-concatenation-which-way-is-best-8f590a7d22a8)
 * [Java performance optimization tips](https://raygun.com/blog/java-performance-optimization-tips/)
 * [Top 10 easy performance optimisations in Java.](https://blog.jooq.org/2015/02/05/top-10-easy-performance-optimisations-in-java/)
+* [Java performance tunning](https://stackify.com/java-performance-tuning/)
 * [entrySet](https://stackoverflow.com/questions/46898/how-to-efficiently-iterate-over-each-entry-in-a-java-map)
+* [Simplicity](https://landing.google.com/sre/sre-book/chapters/simplicity/)
