@@ -79,7 +79,7 @@ class: center, middle
 
 --
 
-- Cache the precomputed results if necessary for example hash code of your **heavy** object.
+- Cache the precomputed results if necessary for example hash code of your **heavy** objects.
 
 ---
 # #8 - Logging
@@ -89,17 +89,34 @@ class: center, middle
 
 --
 
-- Avoid creating temporary objects
+- Do not use String.format to create the log messages
 ``` java
-logger.info("foo" + "boo" + myObj.toString());
 logger.info(String.format("%s %s %s", "foo", "boo", myObj.toString()));
 ```
 
 --
 
-- Do use logging syntax to avoid creating temporary objects
+- Do check the logging level before any logging call.
 ``` java
-logger.info("This is my log object: {}", myObj);
+if (level.toInt() > Level.INFO.toInt()) {
+    logger.warn("{}{}{}{}", "This is ", "my ", "test log line: ", data);
+}
+```
+
+---
+# #8 - Logging - Benchmark results
+
+--
+
+``` shell
+Benchmark                                          Mode  Cnt          Score          Error  Units
+LoggingPerf.infoCreateTemporaryObjectUsingFormat  thrpt   10     645473.756 ±    53874.814  ops/s
+LoggingPerf.infoCreateTemporaryObjectUsingPlus    thrpt   10    2995741.957 ±   434941.899  ops/s
+LoggingPerf.infoStandardSyntax                    thrpt   10    1868721.626 ±   195946.811  ops/s
+LoggingPerf.warnCreateTemporaryObjectUsingFormat  thrpt   10     637672.032 ±    84103.396  ops/s
+LoggingPerf.warnCreateTemporaryObjectUsingPlus    thrpt   10    2878368.859 ±   395766.461  ops/s
+LoggingPerf.warnStandardSyntax                    thrpt   10    1715779.938 ±   438679.159  ops/s
+LoggingPerf.warnStandardSyntaxWithIfGuard         thrpt   10  952644973.795 ± 79126049.024  ops/s
 ```
 
 ---
