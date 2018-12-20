@@ -8,10 +8,9 @@ class: center, middle
 ---
 background-image: url(https://www.allearsenglish.com/wp-content/uploads/2014/02/why-you-cant-speak-English.jpg)
 
-<!-- Why -->
-<!-- Serve more requests i.e throughput -->
-<!-- Have lower latency to improve our customer experience -->
-<!-- Scale horizontally -->
+<!-- Want to serve more requests i.e throughput -->
+<!-- Want to have lower latency to improve our customer experience -->
+<!-- Want to scale vertically -->
 
 ---
 
@@ -56,13 +55,24 @@ class: center, middle
 ---
 # #4 - Build performance test suite for your services/apps
 
-* Use automated performance tests to detect performance regression in your CI.
+--
+
+- Use automated performance tests to detect performance regression in your CI.
+
+--
+
+- Run your performance test regularly to detect performance issue as early as you can.
 
 ---
 # #5 - Troubleshooting
 
 --
+
 - Tackle the biggest bottleneck first.
+
+--
+
+- Do not make any assumption. **You have to measure it.**
 
 ---
 # #6 - Asynchronous vs Synchronous services
@@ -96,10 +106,10 @@ logger.info(String.format("%s %s %s", "foo", "boo", myObj.toString()));
 
 --
 
-- Do check the logging level before any logging call.
+- Do not need to check the logging level before issueing any logging call.
 ``` java
-if (level.toInt() > Level.INFO.toInt()) {
-    logger.warn("{}{}{}{}", "This is ", "my ", "test log line: ", data);
+if (level.isDebugEnabled()) {
+    logger.debug("{}{}{}{}", "This is ", "my ", "test log line: ", data);
 }
 ```
 
@@ -108,15 +118,26 @@ if (level.toInt() > Level.INFO.toInt()) {
 
 --
 
+- Executed command
+
+``` java
+java -jar target/experiments-0.0.1-SNAPSHOT.jar Logging > /dev/shm/hdang/output.log
+```
+
+--
+
+- Benchmark results
+
 ``` shell
-Benchmark                                          Mode  Cnt          Score          Error  Units
-LoggingPerf.infoCreateTemporaryObjectUsingFormat  thrpt   10     645473.756 ±    53874.814  ops/s
-LoggingPerf.infoCreateTemporaryObjectUsingPlus    thrpt   10    2995741.957 ±   434941.899  ops/s
-LoggingPerf.infoStandardSyntax                    thrpt   10    1868721.626 ±   195946.811  ops/s
-LoggingPerf.warnCreateTemporaryObjectUsingFormat  thrpt   10     637672.032 ±    84103.396  ops/s
-LoggingPerf.warnCreateTemporaryObjectUsingPlus    thrpt   10    2878368.859 ±   395766.461  ops/s
-LoggingPerf.warnStandardSyntax                    thrpt   10    1715779.938 ±   438679.159  ops/s
-LoggingPerf.warnStandardSyntaxWithIfGuard         thrpt   10  952644973.795 ± 79126049.024  ops/s
+Benchmark                                           Mode  Cnt          Score        Error  Units
+LoggingPerf.debugCreateTemporaryObjectUsingFormat  thrpt   10     492337.690 ±   9998.527  ops/s
+LoggingPerf.debugCreateTemporaryObjectUsingPlus    thrpt   10    2586671.576 ±  16277.296  ops/s
+LoggingPerf.debugStandardSyntax                    thrpt   10  220863948.357 ± 376326.966  ops/s
+LoggingPerf.debugStandardSyntaxWithIfGuard         thrpt   10  218783853.648 ± 259205.900  ops/s
+LoggingPerf.infoCreateTemporaryObjectUsingFormat   thrpt   10     201335.590 ±   5143.631  ops/s
+LoggingPerf.infoCreateTemporaryObjectUsingPlus     thrpt   10     333285.530 ±   7465.220  ops/s
+LoggingPerf.infoStandardSyntax                     thrpt   10     312504.657 ±   7984.738  ops/s
+LoggingPerf.infoStandardSyntaxWithIfGuard          thrpt   10     301083.544 ±  10608.708  ops/s
 ```
 
 ---
@@ -128,7 +149,7 @@ LoggingPerf.warnStandardSyntaxWithIfGuard         thrpt   10  952644973.795 ± 7
 
 --
 
-- Use either [Jsoniter](https://jsoniter.com/) or [Jackson](https://github.com/FasterXML/jackson) if you can in your project.
+- Consider to use [Jackson](https://github.com/FasterXML/jackson) by default for your projects.
 
 ---
 # #9 - Data deserialization - Benchmark results
