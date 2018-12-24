@@ -89,7 +89,7 @@ class: center, middle
 
 --
 
-- Cache the precomputed results if necessary for example hash code of your **heavy** objects.
+- Cache the precomputed results if necessary for example hash codes of your **heavy** objects.
 
 ---
 # #8 - Logging
@@ -141,18 +141,18 @@ LoggingPerf.infoStandardSyntaxWithIfGuard          thrpt   10     301083.544 ± 
 ```
 
 ---
-# #9 - Data serialization
+# #9 - Storing and exchaging data
 
 --
 
-- Do not assume JSON parser is slow. [jsoniter](https://jsoniter.com/) or [Jackson](https://github.com/FasterXML/jackson)'s performance [is comparable](https://dzone.com/articles/is-protobuf-5x-faster-than-json-part-ii) to that of [Thrift](https://thrift.apache.org/).
+- Use binary format to store/exchange your data if you can. Take a look at matured data format such as [protobuf](https://developers.google.com/protocol-buffers/), [Thrift](https://github.com/apache/thrift), or [message-pack](https://msgpack.org/) for detail information.
 
 --
 
-- Consider to use [Jackson](https://github.com/FasterXML/jackson) by default for your projects.
+- If you have to use JSON then use optimized Java JSON parsers if you can. According to [this article](https://dzone.com/articles/is-protobuf-5x-faster-than-json-part-ii) both [jsoniter](https://jsoniter.com/) or [Jackson](https://github.com/FasterXML/jackson)'s performance is comparable to that of [Thrift](https://thrift.apache.org/).
 
 ---
-# #9 - Data deserialization - Benchmark results
+# #9 - Primitive data benchmark results
 
 --
 
@@ -188,6 +188,7 @@ DeserJsoniter.deser  avgt    5  45290.497   ± 3282.505     ns/op
 # #9 - Five string benchmarks
 
 --
+
 - Deserialization
 
 ``` shell
@@ -212,7 +213,7 @@ SerJsoniter.ser  avgt    5  111447.889 ± 11684.470   ns/op
 
 --
 
-- Do not use String.format for string concatenation.
+- Do not use **String.format** for string concatenation.
 
 --
 
@@ -232,7 +233,7 @@ String buf = "foo" + "boo";
 ```
 
 ---
-# #10 - Two string concatenation benchmark
+# #10 - Two string concatenation benchmark results
 
 ```shell
 Benchmark                                      Mode  Cnt         Score         Error  Units
@@ -248,7 +249,7 @@ TwoStringConcatenation.testStringUtilsJoin    thrpt   10   8544432.132 ±  15000
 ```
 
 ---
-# #10 - Three string concatenation benchmark
+# #10 - Three string concatenation benchmark results
 
 ```shell
 Benchmark                                      Mode  Cnt         Score         Error  Units
@@ -264,7 +265,7 @@ ThreeStringConcatenation.testStringUtilsJoin  thrpt   10   6708409.144 ±  95884
 ```
 
 ---
-# #10 - Five string concatenation benchmark
+# #10 - Five string concatenation benchmark results
 
 ```shell
 Benchmark                                      Mode  Cnt         Score         Error  Units
@@ -280,7 +281,7 @@ FiveStringConcatenation.testStringUtilsJoin   thrpt   10   4287492.852 ±  39345
 ```
 
 ---
-# #10 - Ten string concatenation benchmark
+# #10 - Ten string concatenation benchmark results
 
 ``` shell
 Benchmark                                      Mode  Cnt         Score         Error  Units
@@ -661,6 +662,9 @@ MapDiff.streamBasedAlgorithm                  thrpt   10    539597.117 ±   2801
 
 - Regular expression are useful, but they come at a price.
 
+---
+class: center, middle
+# Live demo using production Java repositories
 
 ---
 class: center, middle
