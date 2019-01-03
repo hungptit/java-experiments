@@ -8,7 +8,7 @@ This repository contains my random experiments with Java.
 **Run all benchmarks**
 
 ``` shell
-java -jar target/experiments-0.0.1-SNAPSHOT.jar MapDiff
+java -jar target/experiments-0.0.1-SNAPSHOT.jar
 ```
 
 **Run benchmarks that match a given pattern**
