@@ -95,7 +95,7 @@ class: center, middle
 # #8 - Logging
 
 --
-- Only log data if needed.
+- Set the level of your log item **properly**.
 
 --
 
@@ -119,7 +119,6 @@ if (level.isDebugEnabled()) {
 --
 
 - Executed command
-
 ``` java
 java -jar target/experiments-0.0.1-SNAPSHOT.jar Logging > /dev/shm/hdang/output.log
 ```
@@ -127,7 +126,6 @@ java -jar target/experiments-0.0.1-SNAPSHOT.jar Logging > /dev/shm/hdang/output.
 --
 
 - Benchmark results
-
 ``` shell
 Benchmark                                           Mode  Cnt          Score        Error  Units
 LoggingPerf.debugCreateTemporaryObjectUsingFormat  thrpt   10     492337.690 ±   9998.527  ops/s
@@ -149,7 +147,7 @@ LoggingPerf.infoStandardSyntaxWithIfGuard          thrpt   10     301083.544 ± 
 
 --
 
-- If you have to use JSON then use optimized Java JSON parsers if you can. According to [this article](https://dzone.com/articles/is-protobuf-5x-faster-than-json-part-ii) both [jsoniter](https://jsoniter.com/) or [Jackson](https://github.com/FasterXML/jackson)'s performance is comparable to that of [Thrift](https://thrift.apache.org/).
+- If you have to use JSON then use optimized Java JSON parsers if you can. According to [this article](https://dzone.com/articles/is-protobuf-5x-faster-than-json-part-ii) both [~~jsoniter~~](https://jsoniter.com/) or [Jackson](https://github.com/FasterXML/jackson)'s performance is comparable to that of [Thrift](https://thrift.apache.org/).
 
 ---
 # #9 - Primitive data benchmark results
@@ -190,8 +188,7 @@ DeserJsoniter.deser  avgt    5  45290.497   ± 3282.505     ns/op
 --
 
 - Deserialization
-
-``` shell
+``` Shell
 Benchmark            Mode   Cnt Score        Error      Units
 DeserThrift.deser    avgt    5  324088.201 ± 19773.342  ns/op
 DeserJackson.deser   avgt    5  458724.474 ± 27443.272  ns/op
@@ -322,7 +319,7 @@ int[] i = { 1337, 424242 };
 - Don't do this
 ``` java
 for (K key : map.keySet()) {
-    V value : map.get(key);
+    V value = map.get(key);
 }
 ```
 
@@ -445,7 +442,6 @@ MapDiff.simpleAlgorithmUsingMapEntry  thrpt   10  207194.485 ± 4506.768  ops/s
 
         return results;
     }
-
 ```
 
 ---
