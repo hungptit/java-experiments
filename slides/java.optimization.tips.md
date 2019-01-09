@@ -1,37 +1,58 @@
 class: center, middle
 # Java optimization tips (Part I)
 
+<!-- How many of you are writing code in Java daily? --> 
+
+<!-- You might know some performance tips that I am going to show,
+however, I hope you can find something new today -->
+
+<!-- Feel free to raise your hand if you have any
+question/suggestion. If I cannot answer your question directly then I
+will try to resolve it offline -->
+
 <!-- Why there are two parts -->
-<!-- First part: Practical tips that can be applied directly to your code base -->
-<!-- Second part: How can we improve our backend services by changing the architecture and technologies -->
+
+<!-- First part: Practical tips that can be applied directly to your
+code base. Share the lessons that we have learned after speeding up
+our Java backend service for more than 10x -->
+
+<!-- Second part: How can we improve the performance of our backend
+services by changing our design and technologies -->
 
 ---
 background-image: url(https://www.allearsenglish.com/wp-content/uploads/2014/02/why-you-cant-speak-English.jpg)
 
-<!-- Want to serve more requests i.e throughput -->
-<!-- Want to have lower latency to improve our customer experience -->
-<!-- Want to scale vertically -->
+<!-- Scale vertically i.e better throughput and lower latency -->
+<!-- And from the business point of view: We spend less and gain more -->
 
 ---
 
 background-image: url(https://www.decentjobsforyouth.org/images/goal/Goals.jpg)
 
-<!-- Show tips that can be used to improve the performance of any Java code base. Some tips can be applied to any language.  -->
-<!-- Practical benchmarks -->
+<!-- Show tips that can be used to improve the performance of any Java
+code base. Some tips can be applied to any language.  -->
+
+<!-- Each tip will come with a story and practical benchmarks -->
 
 ---
 class: center, middle
 # #1 - [Everything Should Be Made as Simple as Possible, But Not Simpler](https://en.wikiquote.org/wiki/Albert_Einstein)
 
-<!-- It is impossible to do performance tunning on a messy code base. -->
-<!-- If you have a messy code base then try to simplify your code before tuning your code for performance.  -->
-<!-- Make sure that you have enough unit test coverage -->
+<!-- Performance tuning is a refactoring process which aims to improve
+the performance of our codebase or services -->
+
+<!-- 1. We can only tune our code if we understand it so code must be
+as simple as possible -->
+
+<!-- 2. This is a 1-1 transformation i.e no new feature is added so we
+do need a good set of unit/integ tests to be able to proceed.  -->
 
 ---
 class: center, middle
 # #2 - Measure, Measure, and Measure
 
-<!-- Forget about all of your intuitions. The modern computer architecture is complex and the only intuition is to measure it. -->
+<!-- Forget about all of your intuitions. The modern computer
+architecture is complex and the only intuition is to measure it. -->
 
 ---
 # #3 - Use a profiler to find the real bottleneck
@@ -40,24 +61,43 @@ class: center, middle
 
 - [VisualVM](https://visualvm.github.io/)
 
+<!-- This is a decent profiler for Java and it is free. I know that we
+do have commercial license for some Java profiler internally, however,
+from what I have known features that these profilers can offer is not
+much different from VisualVM. So try VisualVM first to see if it fit
+for your need and I bet it will. -->
+
 --
 
 - [perf](https://perf.wiki.kernel.org/index.php/Main_Page)
+
+<!-- Allow use to trace the performance of our services at the kernel
+level. -->
 
 --
 
 - [strace](https://linux.die.net/man/1/strace)
 
+<!-- Very useful tool for tracing IO activities. I have used strace to
+reverse engineer the open source command i.e ripgrep -->
+
 --
 
 - Use micro-benchmark framework such as [jmh](https://openjdk.java.net/projects/code-tools/jmh/)
+
+<!-- This is a must have tool which allows you to measure and to track
+the performance of your critical/hot functions or methods. -->
 
 ---
 # #4 - Build performance test suite for your services/apps
 
 --
 
-- Use automated performance tests to detect performance regression in your CI.
+- Use automated performance tests to detect performance regression.
+
+<!-- Tip: I have been using Jenkins to spot the potential performance
+issues i.e see the unit test time increase significantly in a
+branch. -->
 
 --
 
@@ -80,6 +120,10 @@ class: center, middle
 --
 - Consider asynchronous programming for your backend applications/services. Check out [vertx](https://vertx.io/) or [netty](https://netty.io/) for more information.
 
+<!-- Each approach has it own usecases, however, consider the
+asynchronous programming if your execution tasks can be executed
+asynchronously. -->
+
 ---
 # #7 - Caching
 
@@ -91,11 +135,19 @@ class: center, middle
 
 - Cache the precomputed results if necessary for example hash codes of your **heavy** objects.
 
+<!-- Or we have used a multimap to speed up the look up performance
+for items in a list (note that elements of this list are not modified
+frequently). -->
+
 ---
 # #8 - Logging
 
 --
 - Set the level of your log item **properly**.
+
+<!-- This is language independent. We did remove unneccesary log items
+in our Perl codebase to make sure we did not stress out scribe
+logger. -->
 
 --
 
@@ -112,6 +164,14 @@ if (level.isDebugEnabled()) {
     logger.debug("{}{}{}{}", "This is ", "my ", "test log line: ", data);
 }
 ```
+
+<!-- We can find this suggestion somewhere in the web, however, it is
+not true if you use the logging methods properly i.e do not construct
+the temporary objects in your logging calls. -->
+
+<!-- How do we know? -->
+
+<!-- Practical examples + benchmark results -->
 
 ---
 # #8 - Logging - Benchmark results
@@ -139,15 +199,19 @@ LoggingPerf.infoStandardSyntaxWithIfGuard          thrpt   10     301083.544 ± 
 ```
 
 ---
-# #9 - Storing and exchaging data
+# #9 - Storing and exchanging data
 
 --
 
 - Use binary format to store/exchange your data if you can. Take a look at matured data format such as [protobuf](https://developers.google.com/protocol-buffers/), [Thrift](https://github.com/apache/thrift), or [message-pack](https://msgpack.org/) for detail information.
 
+<!-- There are many reasons for using binary format such as compact size and better performance. -->
+
 --
 
-- If you have to use JSON then use optimized Java JSON parsers if you can. According to [this article](https://dzone.com/articles/is-protobuf-5x-faster-than-json-part-ii) both [~~jsoniter~~](https://jsoniter.com/) or [Jackson](https://github.com/FasterXML/jackson)'s performance is comparable to that of [Thrift](https://thrift.apache.org/).
+- If you have to use JSON then use optimized Java JSON libraries if you can. According to [this article](https://dzone.com/articles/is-protobuf-5x-faster-than-json-part-ii) both [jsoniter](https://jsoniter.com/) or [Jackson](https://github.com/FasterXML/jackson)'s performance is comparable to that of [Thrift](https://thrift.apache.org/).
+
+<!-- We have sped up our code about 2x or more by replacing Gson with Jsoniter. -->
 
 ---
 # #9 - Primitive data benchmark results
@@ -453,7 +517,6 @@ Benchmark                              Mode  Cnt       Score       Error  Units
 MapDiff.simpleAlgorithmIterator       thrpt   10  207181.447 ±  4438.118  ops/s
 MapDiff.simpleAlgorithmUsingKeySet    thrpt   10  188632.820 ±  2010.983  ops/s
 MapDiff.simpleAlgorithmUsingMapEntry  thrpt   10  197961.092 ± 13139.091  ops/s
-MapDiff.streamBasedAlgorithm          thrpt   10   88922.548 ±   879.160  ops/s
 ```
 
 ---
@@ -671,11 +734,7 @@ class: center, middle
 
 --
 
-- AthenaWorker team for doing a great job with our Java distributed job scheduler project i.e [scalemonitor v2.0](https://bitbucket.athenahealth.com/projects/PLAW/repos/scalemonitor/browse).
-
---
-
-- Mia Moretti gave me her valuable feedback for draft versions of my slides.
+- Mia Morretti, Zac Bentley (@zbentley), and Anh Pham for valuable suggestions.
 
 ---
 # References
@@ -690,3 +749,4 @@ class: center, middle
 * [Java performance tunning](https://stackify.com/java-performance-tuning/)
 * [entrySet](https://stackoverflow.com/questions/46898/how-to-efficiently-iterate-over-each-entry-in-a-java-map)
 * [Simplicity](https://landing.google.com/sre/sre-book/chapters/simplicity/)
+* [10 subtle best practices when coding java.](https://blog.jooq.org/2013/08/20/10-subtle-best-practices-when-coding-java/)
