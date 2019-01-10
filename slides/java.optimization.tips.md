@@ -713,10 +713,12 @@ MapDiff.streamBasedAlgorithm                  thrpt   10    539597.117 ±   2801
 --
 
 - Date transport and manipulation is not cheep.
-
+  
 --
 
 - Regular expression are useful, but they come at a price.
+
+    - Consider to cache the regular expression pattern to improve the peformance.
 
 ---
 class: center, middle
