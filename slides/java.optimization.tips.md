@@ -615,7 +615,7 @@ EnumSetAndMap.hashSetString  thrpt   10   84277666.685 ±   13520.770  ops/s
 ```
 
 ---
-# #15 - Do not assume functional programming is fast
+# #15 - Functional programming is not a silver bullet
 
 ``` java
     private <K, V> Set<K> diff2(Map<K, V> map1, Map<K, V> map2) {
@@ -630,7 +630,7 @@ EnumSetAndMap.hashSetString  thrpt   10   84277666.685 ±   13520.770  ops/s
 ```
 
 ---
-# #15 - Do not assume functional programming is fast (cont)
+# #15 - Functional programming is not a silver bullet (cont)
 
 ``` java
     private <K, V> Set<K> diff1(Map<K, V> map1, Map<K, V> map2) {
@@ -661,7 +661,7 @@ EnumSetAndMap.hashSetString  thrpt   10   84277666.685 ±   13520.770  ops/s
 ```
 
 ---
-# #15 - Do not assume functional programming is fast (cont)
+# #15 - Functional programming is not a silver bullet (cont)
 
 --
 
@@ -704,10 +704,7 @@ MapDiff.streamBasedAlgorithm                  thrpt   10    539597.117 ±   2801
 ```
 
 ---
-# #17 - Think in sets, not in individual elements
-
----
-# #18 - Common performance tips
+# #17 - Common performance tips
 
 --
 
