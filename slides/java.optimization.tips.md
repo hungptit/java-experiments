@@ -474,7 +474,12 @@ MapDiff.simpleAlgorithmUsingMapEntry  thrpt   10  207194.485 ± 4506.768  ops/s
 # #13 - [Iterator](https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html) is not slow
 
 --
+- [entrySet is implemeted using iterator](http://hg.openjdk.java.net/jdk8/jdk8/jdk/file/687fd7c7986d/src/share/classes/java/util/AbstractMap.java#l327)
 
+---
+# #13 - [Iterator](https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html) is not slow (cont)
+
+--
 ``` java
     private <K, V> Set<K> usingIterator(Map<K, V> map1, Map<K, V> map2) {
         Set<K> results = new HashSet<K>();
@@ -702,6 +707,10 @@ MapDiff.streamBasedAlgorithm                  thrpt   10    539597.117 ±   2801
         return sessionId.equals(other.sessionId);
     }
 ```
+
+---
+# #17 - TODO: Use final keyword
+
 
 ---
 # #17 - Common performance tips
