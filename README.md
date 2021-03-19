@@ -2,7 +2,7 @@
 
 This repository contains my some benchmarks for Java.
 
-# How to 
+# How to
 
 ## Build the benchmark ##
 
@@ -87,3 +87,7 @@ TwoStringConcatenation.testStringUtilsJoin         thrpt   10   17862059.712 ± 
 
 # Acknowledgement
 * String benchmarks are constructed based on this [repo](https://github.com/derfsubterfuge/string.concat.git).
+
+# References #
+
+* [Maven pluggins](https://maven.apache.org/plugins/)
