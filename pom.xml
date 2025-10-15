@@ -8,21 +8,22 @@
   <name>JavaPerf</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <guava.version>33.0.0-jre</guava.version>
-    <javac.target>21</javac.target>
-    <lang.version>3.14.0</lang.version>
+    <maven.compiler.source>24</maven.compiler.source>
+    <maven.compiler.target>24</maven.compiler.target>
+    <guava.version>33.2.1-jre</guava.version>
+    <lang.version>3.17.0</lang.version>
     <jmh.version>1.37</jmh.version>
-    <log4j.core.version>2.23.0</log4j.core.version>
-    <maven.clean.version>3.3.2</maven.clean.version>
-    <maven.deploy.version>3.1.1</maven.deploy.version>
+    <log4j.core.version>2.24.0</log4j.core.version>
+    <maven.clean.version>3.4.0</maven.clean.version>
+    <maven.deploy.version>3.1.2</maven.deploy.version>
     <maven.install.version>3.1.1</maven.install.version>
-    <maven.jar.version>3.4.1</maven.jar.version>
-    <maven.javadoc.version>3.6.3</maven.javadoc.version>
+    <maven.jar.version>3.4.2</maven.jar.version>
+    <maven.javadoc.version>3.6.4</maven.javadoc.version>
     <maven.resources.version>3.3.1</maven.resources.version>
     <maven.site.version>4.0.0-M15</maven.site.version>
-    <maven.source.version>3.3.0</maven.source.version>
+    <maven.source.version>3.3.1</maven.source.version>
     <maven.surefire.version>3.2.5</maven.surefire.version>
-    <slf4j.version>2.0.9</slf4j.version>
+    <slf4j.version>2.0.16</slf4j.version>
   </properties>
   <dependencies>
     <dependency>
@@ -70,9 +71,10 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.13.0</version>
         <configuration>
-          <compilerVersion>${javac.target}</compilerVersion>
-          <source>${javac.target}</source>
-          <target>${javac.target}</target>
+          <source>24</source>
+          <target>24</target>
+          <compilerArgs>
+          </compilerArgs>
         </configuration>
       </plugin>
       <plugin>
