@@ -1,15 +1,9 @@
 package perf.benchmark;
 
-// For jhm
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -34,42 +28,40 @@ public class MapDiff {
 
   @Setup
   public void setupTest() {
-    map1 = new HashMap<String, String>();
-    map2 = new HashMap<String, String>();
+    map1 = new HashMap<>();
+    map2 = new HashMap<>();
 
-    int N1 = 10;
-    int N2 = 10;
-    int N3 = 100;
-    int N4 = 10;
+    int n1 = 10;
+    int n2 = 10;
+    int n3 = 100;
+    int n4 = 10;
 
     // Generate items for map1 only
-    for (int i = 0; i < N1; ++i) {
-      String key = UUID.randomUUID().toString();
-      String value = UUID.randomUUID().toString();
-      System.out.print(key + "==>" + value + "\n");
+    for (int i = 0; i < n1; i++) {
+      var key = UUID.randomUUID().toString();
+      var value = UUID.randomUUID().toString();
       map1.put(key, value);
     }
 
     // Generate items for map2
-    for (int i = 0; i < N2; ++i) {
-      String key = UUID.randomUUID().toString();
-      String value = UUID.randomUUID().toString();
-      System.out.print(key + "==>" + value + "\n");
+    for (int i = 0; i < n2; i++) {
+      var key = UUID.randomUUID().toString();
+      var value = UUID.randomUUID().toString();
       map2.put(key, value);
     }
 
-    // Generate items for both map1 and map2 with the same keys and values.
-    for (int i = 0; i < N3; ++i) {
-      String key = UUID.randomUUID().toString();
-      String value = UUID.randomUUID().toString();
-      System.out.print(key + "==>" + value + "\n");
+    // Generate items for both map1 and map2 with the same keys and values
+    for (int i = 0; i < n3; i++) {
+      var key = UUID.randomUUID().toString();
+      var value = UUID.randomUUID().toString();
       map1.put(key, value);
       map2.put(key, value);
     }
 
-    // Generate items for both map1 and map2 with the same keys.
-    for (int i = 0; i < N4; ++i) {
-      String key = UUID.randomUUID().toString();
+    // Generate items for both map1 and map2 with the same keys but different
+    // values
+    for (int i = 0; i < n4; i++) {
+      var key = UUID.randomUUID().toString();
       map1.put(key, UUID.randomUUID().toString());
       map2.put(key, UUID.randomUUID().toString());
     }
@@ -95,14 +87,14 @@ public class MapDiff {
     bh.consume(diff2(map1, map2));
   }
 
-  // Simple approach
+  // Simple approach using Map.Entry
   private <K, V> Set<K> usingMapEntry(Map<K, V> map1, Map<K, V> map2) {
-    Set<K> results = new HashSet<K>();
+    var results = new HashSet<K>();
 
-    // Find all keys in map1 which either are not present in map2
-    // or have different values.
-    for (Map.Entry<K, V> entry : map1.entrySet()) {
-      K key = entry.getKey();
+    // Find all keys in map1 which either are not present in map2 or have
+    // different values
+    for (var entry : map1.entrySet()) {
+      var key = entry.getKey();
       if (map2.containsKey(key)) {
         if (!entry.getValue().equals(map2.get(key))) {
           results.add(key);
@@ -112,9 +104,9 @@ public class MapDiff {
       }
     }
 
-    // Find all keys in map2 that are not in map1.
-    for (Map.Entry<K, V> entry : map2.entrySet()) {
-      K key = entry.getKey();
+    // Find all keys in map2 that are not in map1
+    for (var entry : map2.entrySet()) {
+      var key = entry.getKey();
       if (!map1.containsKey(key)) {
         results.add(key);
       }
@@ -123,14 +115,14 @@ public class MapDiff {
   }
 
   private <K, V> Set<K> usingIterator(Map<K, V> map1, Map<K, V> map2) {
-    Set<K> results = new HashSet<K>();
+    var results = new HashSet<K>();
 
-    // Find all keys in map1 which either are not present in map2
-    // or have different values.
-    Iterator<Map.Entry<K, V>> entries = map1.entrySet().iterator();
+    // Find all keys in map1 which either are not present in map2 or have
+    // different values
+    var entries = map1.entrySet().iterator();
     while (entries.hasNext()) {
-      var entry = (Map.Entry<K, V>)entries.next();
-      K key = entry.getKey();
+      var entry = entries.next();
+      var key = entry.getKey();
       if (map2.containsKey(key)) {
         if (!entry.getValue().equals(map2.get(key))) {
           results.add(key);
@@ -140,11 +132,11 @@ public class MapDiff {
       }
     }
 
-    // Find all keys in map2 that are not in map1.
+    // Find all keys in map2 that are not in map1
     entries = map2.entrySet().iterator();
     while (entries.hasNext()) {
-      var entry = (Map.Entry<K, V>)entries.next();
-      K key = entry.getKey();
+      var entry = entries.next();
+      var key = entry.getKey();
       if (!map1.containsKey(key)) {
         results.add(key);
       }
@@ -154,10 +146,10 @@ public class MapDiff {
   }
 
   private <K, V> Set<K> usingKeySet(Map<K, V> map1, Map<K, V> map2) {
-    Set<K> results = new HashSet<K>();
+    var results = new HashSet<K>();
 
-    // Find all keys in map1 which either are not present in map2
-    // or have different values.
+    // Find all keys in map1 which either are not present in map2 or have
+    // different values
     for (var key : map1.keySet()) {
       if (map2.containsKey(key)) {
         if (!map1.get(key).equals(map2.get(key))) {
@@ -168,7 +160,7 @@ public class MapDiff {
       }
     }
 
-    // Find all keys in map2 that are not in map1.
+    // Find all keys in map2 that are not in map1
     for (var key : map2.keySet()) {
       if (!map1.containsKey(key)) {
         results.add(key);
@@ -177,15 +169,13 @@ public class MapDiff {
     return results;
   }
 
-  // Use Sets
+  // Stream-based approach using Guava Sets
   private <K, V> Set<K> diff2(Map<K, V> map1, Map<K, V> map2) {
-    Set<K> results =
-        Sets.union(map1.keySet(), map2.keySet())
-            .stream()
-            .filter(key
-                    -> !map1.containsKey(key) || !map2.containsKey(key) ||
-                           !map1.get(key).equals(map2.get(key)))
-            .collect(Collectors.toSet());
-    return results;
+    return Sets.union(map1.keySet(), map2.keySet())
+        .stream()
+        .filter(key
+                -> !map1.containsKey(key) || !map2.containsKey(key) ||
+                       !map1.get(key).equals(map2.get(key)))
+        .collect(Collectors.toSet());
   }
 }
