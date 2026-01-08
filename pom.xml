@@ -13,7 +13,7 @@
     <guava.version>33.2.1-jre</guava.version>
     <lang.version>3.17.0</lang.version>
     <jmh.version>1.37</jmh.version>
-    <log4j.core.version>2.24.0</log4j.core.version>
+    <log4j.core.version>2.25.3</log4j.core.version>
     <maven.clean.version>3.4.0</maven.clean.version>
     <maven.deploy.version>3.1.2</maven.deploy.version>
     <maven.install.version>3.1.1</maven.install.version>
